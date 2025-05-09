@@ -1,0 +1,309 @@
+{
+  "/Users/cesarjub/Documents/Proyectos/automotores-api/serverless.yml": {
+    "versionFramework": "4.13.0",
+    "servicePath": "/Users/cesarjub/Documents/Proyectos/automotores-api/serverless.yml",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "service": "automotores-api",
+      "provider": {
+        "name": "aws",
+        "runtime": "nodejs18.x",
+        "region": "us-east-1",
+        "stage": "dev",
+        "versionFunctions": true,
+        "compiledCloudFormationTemplate": {
+          "AWSTemplateFormatVersion": "2010-09-09",
+          "Description": "The AWS CloudFormation template for this Serverless application",
+          "Resources": {
+            "AppLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/automotores-api-dev-app"
+              }
+            },
+            "IamRoleLambdaExecution": {
+              "Type": "AWS::IAM::Role",
+              "Properties": {
+                "AssumeRolePolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Principal": {
+                        "Service": [
+                          "lambda.amazonaws.com"
+                        ]
+                      },
+                      "Action": [
+                        "sts:AssumeRole"
+                      ]
+                    }
+                  ]
+                },
+                "Policies": [
+                  {
+                    "PolicyName": {
+                      "Fn::Join": [
+                        "-",
+                        [
+                          "automotores-api",
+                          "dev",
+                          "lambda"
+                        ]
+                      ]
+                    },
+                    "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:CreateLogStream",
+                            "logs:CreateLogGroup",
+                            "logs:TagResource"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/automotores-api-dev*:*"
+                            }
+                          ]
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:PutLogEvents"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/automotores-api-dev*:*:*"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "Path": "/",
+                "RoleName": {
+                  "Fn::Join": [
+                    "-",
+                    [
+                      "automotores-api",
+                      "dev",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "lambdaRole"
+                    ]
+                  ]
+                }
+              }
+            }
+          },
+          "Outputs": {
+            "ServerlessDeploymentBucketName": {
+              "Value": "serverless-framework-deployments-us-east-1-1d8efe56-4b4e"
+            }
+          }
+        }
+      },
+      "layers": {
+        "CommonDependenciesLambdaLayer": {
+          "arn": "arn:aws:lambda:us-east-1:768534398312:layer:automotores-dependencies:10",
+          "compatibleRuntimes": [
+            "nodejs18.x"
+          ],
+          "package": {}
+        }
+      },
+      "functions": {
+        "app": {
+          "handler": "handler.app",
+          "layers": [
+            {
+              "Ref": "CommonDependenciesLambdaLayer"
+            }
+          ],
+          "events": [
+            {
+              "http": {
+                "path": "/{proxy+}",
+                "method": "any"
+              }
+            }
+          ],
+          "name": "automotores-api-dev-app",
+          "package": {}
+        }
+      },
+      "package": {
+        "exclude": [
+          "node_modules/**",
+          "package.json",
+          "package-lock.json",
+          ".git/**",
+          ".vscode/**",
+          ".serverless/**"
+        ],
+        "artifactsS3KeyDirname": "serverless/automotores-api/dev/code-artifacts",
+        "deploymentBucket": "serverless-framework-deployments-us-east-1-1d8efe56-4b4e"
+      }
+    },
+    "provider": {
+      "name": "aws",
+      "runtime": "nodejs18.x",
+      "region": "us-east-1",
+      "stage": "dev",
+      "versionFunctions": true,
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "AppLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/automotores-api-dev-app"
+            }
+          },
+          "IamRoleLambdaExecution": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+              "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": [
+                        "lambda.amazonaws.com"
+                      ]
+                    },
+                    "Action": [
+                      "sts:AssumeRole"
+                    ]
+                  }
+                ]
+              },
+              "Policies": [
+                {
+                  "PolicyName": {
+                    "Fn::Join": [
+                      "-",
+                      [
+                        "automotores-api",
+                        "dev",
+                        "lambda"
+                      ]
+                    ]
+                  },
+                  "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:CreateLogStream",
+                          "logs:CreateLogGroup",
+                          "logs:TagResource"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/automotores-api-dev*:*"
+                          }
+                        ]
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:PutLogEvents"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/automotores-api-dev*:*:*"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "Path": "/",
+              "RoleName": {
+                "Fn::Join": [
+                  "-",
+                  [
+                    "automotores-api",
+                    "dev",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    "lambdaRole"
+                  ]
+                ]
+              }
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": "serverless-framework-deployments-us-east-1-1d8efe56-4b4e"
+          }
+        }
+      }
+    },
+    "dashboard": {
+      "isEnabledForService": false,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": null,
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": null,
+      "serviceProvider": null,
+      "instanceParameters": null
+    },
+    "error": {
+      "message": "The \"path\" argument must be of type string. Received undefined",
+      "stack": "TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string. Received undefined\n    at Object.join (node:path:1263:7)\n    at file:///Users/cesarjub/.serverless/releases/4.13.0/package/dist/sf-core.js:880:34166\n    at Array.map (<anonymous>)\n    at file:///Users/cesarjub/.serverless/releases/4.13.0/package/dist/sf-core.js:880:34109\n    at async file:///Users/cesarjub/.serverless/releases/4.13.0/package/dist/sf-core.js:880:32207\n    at async Promise.all (index 1)\n    at async Package.packageService (file:///Users/cesarjub/.serverless/releases/4.13.0/package/dist/sf-core.js:880:32245)\n    at async PluginManager.runHooks (file:///Users/cesarjub/.serverless/releases/4.13.0/package/dist/sf-core.js:1106:9549)\n    at async PluginManager.invoke (file:///Users/cesarjub/.serverless/releases/4.13.0/package/dist/sf-core.js:1106:10318)\n    at async PluginManager.spawn (file:///Users/cesarjub/.serverless/releases/4.13.0/package/dist/sf-core.js:1106:10677)",
+      "code": "ERR_INVALID_ARG_TYPE"
+    },
+    "serviceRawFile": "service: automotores-api\n\nprovider:\n  name: aws\n  runtime: nodejs18.x\n  region: us-east-1\n\nlayers:\n  CommonDependenciesLambdaLayer:\n    arn: arn:aws:lambda:us-east-1:768534398312:layer:automotores-dependencies:10\n    compatibleRuntimes:\n      - nodejs18.x\n\nfunctions:\n  app:\n    handler: handler.app\n    layers:\n      - { Ref: CommonDependenciesLambdaLayer }\n    events:\n      - http:\n          path: /{proxy+}\n          method: any\n\npackage:\n  exclude:\n    - node_modules/**\n    - package.json\n    - package-lock.json\n    - .git/**\n    - .vscode/**\n    - .serverless/**\n",
+    "command": [
+      "deploy"
+    ],
+    "options": {},
+    "orgId": "2a0bd795-fbab-4b04-a504-103c9d5efb48",
+    "orgName": "cesarjub",
+    "userId": "f0hRndzhYvfNncPjnB",
+    "userName": "cesarjub",
+    "serviceProviderAwsAccountId": "768534398312",
+    "serviceProviderAwsCfStackName": "automotores-api-dev",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:768534398312:stack/automotores-api-dev/c7d89410-1b62-11f0-9a12-0affe7f1c717",
+    "serviceProviderAwsCfStackCreated": "2025-04-17T08:05:52.333Z",
+    "serviceProviderAwsCfStackUpdated": "2025-04-17T08:45:09.718Z",
+    "serviceProviderAwsCfStackStatus": "UPDATE_ROLLBACK_COMPLETE",
+    "serviceProviderAwsCfStackOutputs": [
+      {
+        "OutputKey": "GetProveedoresLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:768534398312:function:automotores-api-dev-getProveedores:6",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-automotores-api-dev-GetProveedoresLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "PostProveedorLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:768534398312:function:automotores-api-dev-postProveedor:6",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-automotores-api-dev-PostProveedorLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "ServiceEndpoint",
+        "OutputValue": "https://9lrwcktx13.execute-api.us-east-1.amazonaws.com/dev",
+        "Description": "URL of the service endpoint",
+        "ExportName": "sls-automotores-api-dev-ServiceEndpoint"
+      },
+      {
+        "OutputKey": "ServerlessDeploymentBucketName",
+        "OutputValue": "serverless-framework-deployments-us-east-1-1d8efe56-4b4e",
+        "ExportName": "sls-automotores-api-dev-ServerlessDeploymentBucketName"
+      }
+    ]
+  }
+}

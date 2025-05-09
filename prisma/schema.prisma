@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model proveedores {
+  idproveedores Int         @id @default(autoincrement())
+  nombreProveedor String?   @db.VarChar(45)
+  automotores    automotor[]
+
+  @@map("proveedores")
+}
+
+model descripcion {
+  idDescripcion Int               @id @default(autoincrement())
+  descripcion   String?           @db.VarChar(45)
+  modeloAutomotor modeloAutomotor[]
+
+  @@map("descripcion")
+}
+
+model fabricante {
+  idfabricante   Int               @id @default(autoincrement())
+  nombreFabricante String?        @db.VarChar(45)
+  modeloAutomotor modeloAutomotor[]
+
+  @@map("fabricante")
+}
+
+model modeloAutomotor {
+  idmodeloAutomotor       Int             @id @default(autoincrement())
+  modelo                  String?         @db.VarChar(45)
+  fechaCreacion           Int
+  descripcion             descripcion     @relation(fields: [Descripcion_idDescripcion], references: [idDescripcion])
+  Descripcion_idDescripcion Int
+  fabricanteModel         fabricante      @relation(fields: [fabricante_idfabricante], references: [idfabricante])
+  fabricante_idfabricante Int
+  automotores             automotor[]
+
+  @@map("modeloAutomotor")
+}
+
+model estadoOperativo {
+  idestadoOperativo Int         @id @default(autoincrement())
+  estadoOperativo   String?     @db.VarChar(45)
+  automotores       automotor[]
+
+  @@map("estadoOperativo")
+}
+
+model rango {
+  idrango   Int       @id @default(autoincrement())
+  rango     String?   @db.VarChar(45)
+  usuarios  usuarios[]
+  IRO       IRO[]
+
+  @@map("rango")
+}
+
+model usuarios {
+  idUsuarios   Int        @id @default(autoincrement())
+  nombreUsuario String?   @db.VarChar(45)
+  rango         rango     @relation(fields: [rango_idrango], references: [idrango])
+  rango_idrango Int
+  automotores   automotor[]
+
+  @@map("usuarios")
+}
+
+model automotor {
+  idVehiculo                  Int              @id @default(autoincrement())
+  noSerie                    String?          @db.VarChar(45)
+  noControl                  String?          @db.VarChar(45)
+  imagen                     Bytes?
+  latitude                   String?          @db.VarChar(45)
+  longitude                  String?          @db.VarChar(45)
+  direccion                  String?          @db.VarChar(45)
+  proveedor                  proveedores       @relation(fields: [proveedores_idproveedores], references: [idproveedores])
+  proveedores_idproveedores  Int
+  modelo                     modeloAutomotor   @relation(fields: [modeloAutomotor_idmodeloAutomotor], references: [idmodeloAutomotor])
+  modeloAutomotor_idmodeloAutomotor Int
+  estado                     estadoOperativo   @relation(fields: [estadoOperativo_idestadoOperativo], references: [idestadoOperativo])
+  estadoOperativo_idestadoOperativo Int
+  usuario                    usuarios          @relation(fields: [Usuarios_idUsuarios], references: [idUsuarios])
+  Usuarios_idUsuarios        Int
+  subproyectos               subproyectos[]
+
+  @@map("automotor")
+}
+
+model IRO {
+  idIRO         Int            @id @default(autoincrement())
+  nombreIRO     String?        @db.VarChar(45)
+  rango         rango          @relation(fields: [rango_idrango], references: [idrango])
+  rango_idrango Int
+  subproyectos  subproyectos[]
+
+  @@map("IRO")
+}
+
+model proyectos {
+  idproyectos      Int             @id @default(autoincrement())
+  nombreProyecto   String?         @db.VarChar(45)
+  subproyectos     subproyectos[]
+
+  @@map("proyectos")
+}
+
+model subproyectos {
+  idsubproyectos       Int         @id @default(autoincrement())
+  nombreSubproyecto    String?     @db.VarChar(45)
+  proyecto             proyectos   @relation(fields: [proyectos_idproyectos], references: [idproyectos])
+  proyectos_idproyectos Int
+  automotor            automotor   @relation(fields: [automotor_idVehiculo], references: [idVehiculo])
+  automotor_idVehiculo Int
+  iro                  IRO         @relation(fields: [IRO_idIRO], references: [idIRO])
+  IRO_idIRO            Int
+
+  @@map("subproyectos")
+}

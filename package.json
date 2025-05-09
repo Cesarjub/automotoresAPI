@@ -1,0 +1,36 @@
+{
+  "name": "automotores-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node ./src/app.ts",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@prisma/client": "^6.6.0",
+    "@vendia/serverless-express": "^4.12.6",
+    "aws-lambda": "^1.0.7",
+    "dotenv": "^16.5.0",
+    "helmet": "^8.1.0",
+    "serverless": "^3.40.0",
+    "serverless-http": "^3.2.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.149",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^22.14.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "prisma": "^6.6.0",
+    "serverless-plugin-typescript": "^2.1.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
